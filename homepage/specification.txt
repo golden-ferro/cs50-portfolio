@@ -1,0 +1,41 @@
+HTML Tags used:
+1. <!DOCTYPE html> – defines the document type and HTML version.
+2. <html> – wraps the entire page content.
+3. <head> – contains metadata, CSS, JavaScript, and Bootstrap links.
+4. <title> – sets the title shown on the browser tab.
+5. <link> – connects the HTML with external CSS and Bootstrap.
+6. <script> – includes and runs JavaScript files and Bootstrap scripts.
+7. <body> – holds all the visible page content.
+8. <h1>, <h2>, <h3>, <h4> – define headings of different importance.
+9. <p> – displays descriptive text.
+10. <div> – groups content, including Bootstrap cards and progress bar.
+11. <input> – takes user input (number field).
+12. <button> – clickable elements for actions and navigation.
+13. <br> – adds line breaks where needed.
+14. <span> – inline container, used for small text elements (if present).
+15. <meta> – defines metadata like character encoding and responsiveness.
+
+CSS Properties used:
+1. background-color – sets background colors of body and cards.
+2. color – changes text color.
+3. padding – creates inner spacing for containers.
+4. margin – adds space between elements.
+5. border-radius – rounds corners of cards and buttons.
+6. box-shadow – gives a shadow effect for depth.
+7. font-family – specifies the text font.
+8. text-align – aligns text (centered in cards).
+9. width – controls size of inputs, progress bar, and containers.
+10. height – sets vertical size for elements (used in some styling).
+11. display – controls layout (flex, block, none).
+12. justify-content – aligns items horizontally in flexbox.
+13. align-items – aligns items vertically in flexbox.
+14. min-height – ensures full viewport height for centering content.
+15. cursor – changes the mouse pointer style on hover (buttons).
+16. font-size – adjusts text sizes for readability.
+17. font-weight – makes text bold when needed.
+
+JavaScript:
+I used JavaScript to power the interactive "Mind Reader" by handling user input, showing a progress bar animation, and displaying the final result dynamically.
+
+Bootstrap:
+I used Bootstrap’s card component for a clean content container, form-control for styled input, and the animated progress bar to add modern, responsive design elements with minimal custom CSS.
