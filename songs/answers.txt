@@ -1,0 +1,3 @@
+By averaging the energy, valence, and danceability of the 100 songs, I can identify the two highest values to describe the listener’s audio aura. For example, high energy and valence might suggest an aura of “excited” and “happy.”
+
+This approach treats all songs equally and ignores play count, emotional context, and temporal patterns. A better method would weight songs by play count, analyze trends over time, and include other factors like lyrics or genre for a fuller emotional picture.

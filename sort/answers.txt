@@ -1,0 +1,11 @@
+sort1 uses: Bubble sort
+
+How do you know?: time spent sorting already sorted numbers is much less than the time spent sorting unsorted numbers
+
+sort2 uses: Merge sort
+
+How do you know?: time spent sorting the already sorted numbers and the time spent sorting the unsorted numbers is similar and is much less than the time spent by the other two
+
+sort3 uses: Selection sort
+
+How do you know?: time spent sorting the already sorted numbers is equal to the time spent sorting the unsorted numbers
