@@ -1,0 +1,305 @@
+{
+  "name": "Clear long-term memory that hasn't been updated in a long time.",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -96,
+        144
+      ],
+      "id": "3bafe45a-cc02-46bd-96b6-989560124d90",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "DELETE FROM teste01_clientes\nWHERE data_atualizado < NOW() - INTERVAL 1 MONTH;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        112,
+        144
+      ],
+      "id": "54dd1049-b7a3-4b67-9487-33cb3a2d5be4",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "mySql": {
+          "id": "gV5U0RMg8C6FXOK1",
+          "name": "MySQL account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Clear long-term memory that hasn't been updated in a long time.\n## This workflow runs periodically to clean up old memory in the SQL database. It removes any records that haven't been updated in over a month, preventing unnecessary data buildup and keeping server memory from becoming overloaded.",
+        "height": 528,
+        "width": 608,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -224,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "0ef58a63-7cf8-4c75-b7c9-01a5367b8a9b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtDayOfMonth": 31
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1392,
+        -96
+      ],
+      "id": "f3b0934a-7b13-41ce-b231-1a972f3d1f1b",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você é um analista de atendimento.\nReceberá uma lista de resumos de conversas e pedidos de clientes coletados ao longo do mês.\nSua tarefa é gerar um resumo mensal com as seguintes informações:\n\nPrincipais dúvidas dos clientes\nProdutos mais solicitados ou comentados\nTendências observadas nas conversas\nObservações gerais (como feedbacks, reclamações ou elogios)\n\nGere um texto conciso e bem formatado.\nUse linguagem profissional e clara."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -864,
+        -96
+      ],
+      "id": "d5c870f7-8c70-4ee2-81f9-212076f5856a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -864,
+        112
+      ],
+      "id": "37482921-fa3a-43fb-a4d6-56ae0043a9da",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "jzWUnJMWUgmxSTIH",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "teste01_clientes",
+          "mode": "list",
+          "cachedResultName": "teste01_clientes"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "data_atualizado",
+              "condition": ">",
+              "value": "={{ new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().slice(0, 19).replace('T', ' ') }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1120,
+        -96
+      ],
+      "id": "c2bac200-3638-492c-aa48-abde6d8cd83f",
+      "name": "Select rows from a table",
+      "credentials": {
+        "mySql": {
+          "id": "gV5U0RMg8C6FXOK1",
+          "name": "MySQL account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1AyAY8tZ8EIeilIWV9nkggG7rnciLehjiRbNSCtO4U18",
+          "mode": "list",
+          "cachedResultName": "Planilha 01",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AyAY8tZ8EIeilIWV9nkggG7rnciLehjiRbNSCtO4U18/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1668878387,
+          "mode": "list",
+          "cachedResultName": "Página7",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AyAY8tZ8EIeilIWV9nkggG7rnciLehjiRbNSCtO4U18/edit#gid=1668878387"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "data": "={{ new Date().toLocaleDateString(\"pt-BR\") }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "resumo do mês",
+              "displayName": "resumo do mês",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -512,
+        -96
+      ],
+      "id": "fd151b9e-829d-4300-8b8a-187b65059ec2",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QFFCiedZ09uMul96",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Creates a summary of customer information and orders for the month.\n## This workflow runs automatically once a month. It queries the SQL database to collect all interactions and orders recorded throughout the period. Then, the AI ​​Agent analyzes this data and generates a structured summary containing relevant insights, patterns, and information about the customers. Finally, the summary is recorded in a new row of a Google Sheets spreadsheet for tracking and analysis.",
+        "height": 688,
+        "width": 1168,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1456,
+        -352
+      ],
+      "typeVersion": 1,
+      "id": "ea7209ec-ad3e-45be-8fae-9269d18d869c",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "662b1a8f-67f9-45b6-9661-67b197d23368",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "09a433a5fe9497e89ddf55942ded63064e526de1851744233bce1afe052c5153"
+  },
+  "id": "m1Pi4jWGHFFvH93q",
+  "tags": []
+}

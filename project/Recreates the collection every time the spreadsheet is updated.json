@@ -1,0 +1,312 @@
+{
+  "name": "Recreates the collection every time the spreadsheet is updated.",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "teste01",
+          "mode": "list",
+          "cachedResultName": "teste01"
+        },
+        "options": {
+          "collectionConfig": "="
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        816,
+        0
+      ],
+      "id": "3fec28ed-bbc1-4f20-b03b-7188317fb632",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "oYtN30hGuaveBm1q",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        816,
+        208
+      ],
+      "id": "6a7d8290-0328-4831-b806-843ae5596b0c",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "jzWUnJMWUgmxSTIH",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "=Nome: {{ $json.nome_produto }}\nDescrição: {{ $json['resumo_do _produto'] }}",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "product_name",
+                "value": "={{ $json.nome_produto }}"
+              },
+              {
+                "name": "product_summary",
+                "value": "={{ $json['resumo_do _produto'] }}"
+              },
+              {
+                "name": "price",
+                "value": "={{ $json['preço'] }}"
+              },
+              {
+                "name": "link",
+                "value": "={{ $json.link }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        992,
+        208
+      ],
+      "id": "a7ca5f9b-670b-4629-97dc-5cacd912b928",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1AyAY8tZ8EIeilIWV9nkggG7rnciLehjiRbNSCtO4U18",
+          "mode": "list",
+          "cachedResultName": "Planilha 01",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AyAY8tZ8EIeilIWV9nkggG7rnciLehjiRbNSCtO4U18/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2108688822,
+          "mode": "list",
+          "cachedResultName": "Página4",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AyAY8tZ8EIeilIWV9nkggG7rnciLehjiRbNSCtO4U18/edit#gid=2108688822"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        0
+      ],
+      "id": "d70c5fee-c984-43b3-81e6-6f1dd04fa990",
+      "name": "Google Sheets Trigger",
+      "retryOnFail": false,
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "LIdFMAaI7OsBFmop",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteCollection",
+        "collectionName": {
+          "__rl": true,
+          "value": "teste01",
+          "mode": "list",
+          "cachedResultName": "teste01"
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-qdrant.qdrant",
+      "typeVersion": 1,
+      "position": [
+        64,
+        0
+      ],
+      "id": "328d4368-4c2a-4fc6-911b-fe404390f923",
+      "name": "Delete Collection",
+      "credentials": {
+        "qdrantRestApi": {
+          "id": "oE9Ofwxe0eUmU9We",
+          "name": "Qdrant account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Recreates the collection every time the spreadsheet is updated.\n## Whenever the Google Sheets spreadsheet is modified, this flow deletes and recreates the entire collection in Qdrant. This is necessary because, in the current version of n8n, it's not possible to update only part of the collection, therefore, the entire set needs to be rebuilt. After recreating the collection, the flow reads all the rows from the spreadsheet, generates embeddings, and reloads the documents into the vector database.",
+        "height": 640,
+        "width": 1456,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "8e66f041-767f-4c9f-8af3-7e7be6a8420f",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1AyAY8tZ8EIeilIWV9nkggG7rnciLehjiRbNSCtO4U18",
+          "mode": "list",
+          "cachedResultName": "Planilha 01",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AyAY8tZ8EIeilIWV9nkggG7rnciLehjiRbNSCtO4U18/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2108688822,
+          "mode": "list",
+          "cachedResultName": "Página4",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AyAY8tZ8EIeilIWV9nkggG7rnciLehjiRbNSCtO4U18/edit#gid=2108688822"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        560,
+        0
+      ],
+      "id": "dbd9ee7f-36e7-4f0f-a986-3c0115815453",
+      "name": "Get row(s) in sheet",
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QFFCiedZ09uMul96",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "https://teste01-qdrant.w1y4zk.easypanel.host/collections/teste01",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type ",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"vectors\": {\n    \"size\": 1536,\n    \"distance\": \"Cosine\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        304,
+        0
+      ],
+      "id": "403b45d2-f522-4658-a35c-5a95d9d1aea2",
+      "name": "recreates the collection",
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Delete Collection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Collection": {
+      "main": [
+        [
+          {
+            "node": "recreates the collection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "recreates the collection": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7ebe2606-68aa-4288-8b87-0a9ec94bd8a7",
+  "meta": {
+    "instanceId": "09a433a5fe9497e89ddf55942ded63064e526de1851744233bce1afe052c5153"
+  },
+  "id": "NfgeE29Ld0XnXeu7",
+  "tags": []
+}
